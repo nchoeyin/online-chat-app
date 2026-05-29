@@ -1,0 +1,107 @@
+<form
+  (ngSubmit)="onSubmit()"
+  class="relative rounded-[20px] border border-cp-border bg-cp-bg-2/60 shadow-sm transition focus-within:bg-cp-bg-2"
+>
+  <textarea
+    #textareaRef
+    [ngModel]="draft()"
+    (ngModelChange)="draft.set($event)"
+    (input)="autosize($event)"
+    (keydown.enter)="onEnter($event)"
+    name="draft"
+    rows="1"
+    placeholder="Message Copilot"
+    class="block max-h-[200px] w-full resize-none bg-transparent px-5 pt-4 pb-2 text-[15px] leading-6 text-cp-text outline-none placeholder:text-cp-muted"
+  ></textarea>
+
+  <div class="flex items-center justify-between px-2.5 pb-2.5">
+    <div class="flex items-center gap-1">
+      <button
+        type="button"
+        class="flex h-8 w-8 items-center justify-center rounded-full text-cp-muted transition hover:bg-cp-bg-3 hover:text-cp-text"
+        aria-label="Attach"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+      </button>
+
+      <div class="relative">
+        <button
+          type="button"
+          (click)="toggleModel($event)"
+          class="flex items-center gap-1 rounded-full px-2.5 py-1 text-xs text-cp-text transition hover:bg-cp-bg-3"
+          [class.bg-cp-bg-3]="modelOpen()"
+        >
+          {{ ui.selectedModel().label }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 transition"
+            [class.rotate-180]="modelOpen()">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+
+        @if (modelOpen()) {
+          <div
+            class="absolute bottom-full left-0 z-20 mb-2 w-60 overflow-hidden rounded-xl border border-cp-border bg-cp-bg-2 shadow-xl"
+            role="menu"
+          >
+            @for (m of ui.models; track m.id) {
+              <button
+                type="button"
+                (click)="pickModel(m.id, $event)"
+                class="flex w-full items-start gap-3 px-3 py-2.5 text-left transition hover:bg-cp-bg-3"
+                role="menuitemradio"
+                [attr.aria-checked]="ui.model() === m.id"
+              >
+                <span class="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center text-cp-accent">
+                  @if (ui.model() === m.id) {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                      stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  }
+                </span>
+                <span class="min-w-0 flex-1">
+                  <span class="block text-[13px] font-medium text-cp-text">{{ m.label }}</span>
+                  <span class="block text-[11px] text-cp-muted">{{ m.description }}</span>
+                </span>
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (draft().trim()) {
+      <button
+        type="submit"
+        class="flex h-8 w-8 items-center justify-center rounded-full bg-cp-accent text-cp-bg transition hover:opacity-90"
+        aria-label="Send"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+          <line x1="12" y1="19" x2="12" y2="5" />
+          <polyline points="5 12 12 5 19 12" />
+        </svg>
+      </button>
+    } @else {
+      <button
+        type="button"
+        class="flex h-8 w-8 items-center justify-center rounded-full text-cp-muted transition hover:bg-cp-bg-3 hover:text-cp-text"
+        aria-label="Voice"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+          <line x1="4" y1="10" x2="4" y2="14" />
+          <line x1="8" y1="6" x2="8" y2="18" />
+          <line x1="12" y1="3" x2="12" y2="21" />
+          <line x1="16" y1="6" x2="16" y2="18" />
+          <line x1="20" y1="10" x2="20" y2="14" />
+        </svg>
+      </button>
+    }
+  </div>
+</form>

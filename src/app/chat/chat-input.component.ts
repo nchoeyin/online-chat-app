@@ -55,7 +55,7 @@ export class ChatInputComponent {
   protected autosize(event: Event): void {
     const el = event.target as HTMLTextAreaElement;
     el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 200) + 'px';
+    el.style.height = Math.min(el.scrollHeight, 240) + 'px';
   }
 
   protected toggleModel(e: MouseEvent): void {

@@ -30,8 +30,8 @@
 
   <div #scrollRef class="cp-scroll min-h-0 flex-1 overflow-y-auto">
     @if (!chat.activeConversation() || chat.activeConversation()!.messages.length === 0) {
-      <div class="mx-auto flex h-full max-w-3xl flex-col items-center justify-center px-6">
-        <h1 class="mb-10 text-center text-[32px] font-semibold leading-tight tracking-tight text-cp-text">
+      <div class="mx-auto flex h-full max-w-5xl flex-col items-center justify-center px-6">
+        <h1 class="mb-10 text-center text-[38px] font-semibold leading-tight tracking-tight text-cp-text">
           Hi {{ chat.userName() }}, what should we dive into today?
         </h1>
 
@@ -126,7 +126,7 @@
         </p>
       </div>
     } @else {
-      <div class="mx-auto max-w-3xl space-y-6 px-6 pt-16 pb-32">
+      <div class="mx-auto max-w-5xl space-y-6 px-6 pt-16 pb-32">
         @for (msg of chat.activeConversation()!.messages; track msg.id) {
           @if (msg.role === 'user') {
             <div class="flex justify-end">
@@ -178,10 +178,11 @@
 
   @if (chat.activeConversation() && chat.activeConversation()!.messages.length > 0) {
     <div class="shrink-0 px-4 pb-6">
-      <div class="mx-auto max-w-3xl">
+      <div class="mx-auto max-w-5xl">
         <app-chat-input />
       </div>
     </div>
   }
 </main>
+
 

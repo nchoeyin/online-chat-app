@@ -34,6 +34,7 @@ export class ChatService {
   readonly conversations = this._conversations.asReadonly();
   readonly activeId = this._activeId.asReadonly();
   readonly userName = signal('ngawang');
+  readonly userEmail = signal('ngawangchoeying303@gmail.com');
   readonly plan = signal<'Free Plan' | 'Pro Plan'>('Free Plan');
 
   readonly activeConversation = computed<Conversation | null>(() => {

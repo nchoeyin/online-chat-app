@@ -35,6 +35,7 @@ export class UiService {
   readonly collapsed = signal<boolean>(this.initial.collapsed ?? false);
   readonly model = signal<ModelId>(this.initial.model ?? 'smart');
   readonly authModalOpen = signal(false);
+  readonly userMenuOpen = signal(false);
 
   readonly models: ModelOption[] = [
     { id: 'smart', label: 'Smart', description: 'Balanced everyday model' },
@@ -80,6 +81,14 @@ export class UiService {
 
   closeAuth(): void {
     this.authModalOpen.set(false);
+  }
+
+  toggleUserMenu(): void {
+    this.userMenuOpen.update((v) => !v);
+  }
+
+  closeUserMenu(): void {
+    this.userMenuOpen.set(false);
   }
 
   selectedModel(): ModelOption {

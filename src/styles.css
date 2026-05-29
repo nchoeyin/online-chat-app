@@ -1,9 +1,12 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-cp-bg: var(--cp-bg);
   --color-cp-bg-2: var(--cp-bg-2);
   --color-cp-bg-3: var(--cp-bg-3);
+  --color-cp-sidebar: var(--cp-sidebar);
   --color-cp-border: var(--cp-border);
   --color-cp-text: var(--cp-text);
   --color-cp-muted: var(--cp-muted);
@@ -16,21 +19,23 @@ html.dark {
   --cp-bg: #1c1f26;
   --cp-bg-2: #232730;
   --cp-bg-3: #2a2f3a;
+  --cp-sidebar: #13151b;
   --cp-border: #313643;
-  --cp-text: #e6e8ec;
-  --cp-muted: #9aa0ac;
+  --cp-text: #ffffff;
+  --cp-muted: #ededed;
   --cp-accent: #ffffff;
 }
 
-/* Light theme */
+/* Light theme (ChatGPT-inspired) */
 html.light {
   --cp-bg: #ffffff;
-  --cp-bg-2: #f3f4f6;
-  --cp-bg-3: #e5e7eb;
-  --cp-border: #d4d8df;
-  --cp-text: #1f2330;
-  --cp-muted: #6b7280;
-  --cp-accent: #1f2330;
+  --cp-bg-2: #ececec;
+  --cp-bg-3: #e0e0e0;
+  --cp-sidebar: #f7f7f8;
+  --cp-border: #e5e5e5;
+  --cp-text: #2c2c2c;
+  --cp-muted: #6e6e80;
+  --cp-accent: #0d0d0d;
 }
 
 html,

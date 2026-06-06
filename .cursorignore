@@ -1,0 +1,31 @@
+# Files in this list are hidden from the Cursor AI agent (Read, Grep, Glob,
+# semantic search, and auto-attached "open files" context). Syntax matches
+# .gitignore.
+#
+# Independent of .gitignore — a file can be tracked by git but hidden from
+# the AI, or vice versa. For secrets you usually want BOTH.
+
+# --- Secrets / credentials ---
+.env
+.env.*
+!.env.example
+
+# Common alternatives that may show up later
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+service-account*.json
+
+# Cloud provider config that may contain tokens
+.aws/credentials
+.gcloud/
+.config/gcloud/
+
+# --- Local DB dumps (may contain real user data) ---
+*.sqlite3
+*.db
+*.dump
+*.sql

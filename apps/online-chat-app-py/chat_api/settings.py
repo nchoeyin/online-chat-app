@@ -10,10 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from a local .env file (gitignored). See
+# .env.example for the keys this project recognises (OAuth credentials etc.).
+load_dotenv(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +32,7 @@ SECRET_KEY = 'django-insecure-@dy3o(*4f7=bh3aw)c2@4_h%2w6eqws=9@eu51j7&zj^u2%zg$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,12 +44,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-party
+    'corsheaders',
     # Local apps
     'chat',
+    'auth_api',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # CorsMiddleware must come before CommonMiddleware (and any middleware that
+    # might generate a response, e.g. CsrfViewMiddleware) so CORS headers are
+    # attached to ALL responses, including error responses.
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,6 +64,38 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# --- CORS / cross-origin auth (dev) ---
+# Angular dev server (ng serve) runs on http://localhost:4200 by default.
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',
+    'http://127.0.0.1:4200',
+]
+# Required so the browser sends the session cookie on cross-origin requests
+# (Angular HttpClient must also be invoked with withCredentials: true).
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:4200',
+    'http://127.0.0.1:4200',
+]
+
+# Localhost shares a registrable domain across ports, so SameSite=Lax is fine
+# for cross-port dev. In production with separate domains you'd want:
+#   SESSION_COOKIE_SAMESITE = 'None'
+#   SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+
+# --- OAuth providers ---
+# Where the user lands after the provider redirect (Angular route).
+# Must match an Authorized redirect URI in the OAuth provider's console.
+OAUTH_REDIRECT_URI = os.environ.get(
+    'OAUTH_REDIRECT_URI', 'http://localhost:4200/auth/callback'
+)
+
+# Google: https://console.cloud.google.com/apis/credentials
+GOOGLE_OAUTH_CLIENT_ID = os.environ.get('GOOGLE_OAUTH_CLIENT_ID', '')
+GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET', '')
 
 ROOT_URLCONF = 'chat_api.urls'
 

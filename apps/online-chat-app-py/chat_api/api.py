@@ -1,5 +1,6 @@
 from ninja import NinjaAPI, Schema
 
+from auth_api.api import router as auth_router
 from chat.api import router as chat_router
 
 api = NinjaAPI(
@@ -19,4 +20,5 @@ def health(request):
     return {"status": "ok", "version": api.version}
 
 
+api.add_router("/auth", auth_router)
 api.add_router("/chat", chat_router)

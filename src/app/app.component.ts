@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { AuthModalComponent } from './chat/auth-modal.component';
-import { ChatComponent } from './chat/chat.component';
-import { SidebarComponent } from './chat/sidebar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [SidebarComponent, ChatComponent, AuthModalComponent],
+  imports: [RouterOutlet, AuthModalComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

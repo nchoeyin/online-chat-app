@@ -4,22 +4,20 @@ import {
   HostListener,
   effect,
   inject,
-  signal,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { AuthCardComponent } from '../auth/auth-card.component';
 import { UiService } from './ui.service';
 
 @Component({
   selector: 'app-auth-modal',
   standalone: true,
-  imports: [FormsModule],
+  imports: [AuthCardComponent],
   templateUrl: './auth-modal.component.html',
   host: { class: 'contents' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthModalComponent {
   protected readonly ui = inject(UiService);
-  protected readonly email = signal('');
 
   constructor() {
     effect(() => {
@@ -35,12 +33,5 @@ export class AuthModalComponent {
 
   protected onBackdropClick(e: MouseEvent): void {
     if (e.target === e.currentTarget) this.ui.closeAuth();
-  }
-
-  protected continueWith(provider: 'google' | 'apple' | 'phone' | 'email'): void {
-    if (provider === 'email' && !this.email().trim()) return;
-    console.log('[auth] continue with', provider, this.email());
-    this.ui.closeAuth();
-    this.email.set('');
   }
 }
